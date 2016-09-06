@@ -55,7 +55,9 @@ class Sudoku(object):
 
     def taken_values(self, row, col):
         used_set = self.taken_values_row(row)
+        print("used in row", row, used_set)
         used_set |= self.taken_col(col)
+        print("used in row, col", row, col, used_set)
         used_set |= self.taken_values_box(row, col)
         # print("row: {}, col: {} used values are ".format(row, col, used_set))
         return used_set - set(' ')
@@ -118,17 +120,20 @@ def main():
         working = False
         for r in range(1, 10):
             for c in range(1, 10):
-                # print(sudoku.taken_values(r, c))
-                possible = sudoku.all_candidates - sudoku.taken_values(r, c)
-                # print(possible)
-                if len(possible) == 1:
-                    working = True
-                    print(r, c)
-                    sudoku.board[r-1][c-1] = possible.pop()
-                    print("------------------------we have a new box", possible)
-                    print("new board:")
-                    print_board(sudoku.board)
-                    time.sleep(1)
+                print(r, c, sudoku.board[r-1][c-1])
+                if sudoku.board[r-1][c-1] == ' ':
+
+                    # print(sudoku.taken_values(r, c))
+                    possible = sudoku.all_candidates - sudoku.taken_values(r, c)
+                    print(possible)
+                    if len(possible) == 1:
+                        working = True
+                        print(r, c)
+                        sudoku.board[r-1][c-1] = possible.pop()
+                        print("------------------------we have a new box", possible)
+                        print("new board:")
+                        print_board(sudoku.board)
+                        time.sleep(1)
 
 
 if __name__ == "__main__":
